@@ -5,17 +5,17 @@ using UnityEngine;
 public class GhostPortal : MonoBehaviour
 {
 
-    const int ANGRY = 1;
+    const int RAGE = 1;
     const int FEAR = 2;
     const int SADNESS = 3;
 
     private int portalType = 0;
 
-    
+
     private bool canSpawnGhost;
 
     [SerializeField]
-    GameObject angryGhost;
+    GameObject rageGhost;
 
     [SerializeField]
     GameObject fearGhost;
@@ -25,7 +25,7 @@ public class GhostPortal : MonoBehaviour
 
 
     [SerializeField]
-    Material angryMat;
+    Material rageMat;
 
     [SerializeField]
     Material fearMat;
@@ -33,23 +33,38 @@ public class GhostPortal : MonoBehaviour
     [SerializeField]
     Material sadnessMat;
 
+    private float timeCounter;
+    private float timePeak;
+
     private void Start()
     {
         canSpawnGhost = true;
         SetType(1);
-        StartCoroutine(SpawnGhost(20));
+        timePeak = Random.Range(10, 15);
     }
 
     private void Update()
     {
+        timeCounter = timeCounter + Time.deltaTime;
 
+        if (timeCounter > timePeak)
+        {
+            SpawnGhost();
+            RestartCounter();
+            timePeak = Random.Range(10, 15);
+        }
+    }
+
+    void RestartCounter()
+    {
+        timeCounter = 0;
     }
 
     public void SetType(int type)
     {
         portalType = type;
-        if (portalType == ANGRY)
-            gameObject.GetComponent<Renderer>().material = angryMat;
+        if (portalType == RAGE)
+            gameObject.GetComponent<Renderer>().material = rageMat;
 
         if (portalType == SADNESS)
             gameObject.GetComponent<Renderer>().material = sadnessMat;
@@ -58,45 +73,37 @@ public class GhostPortal : MonoBehaviour
             gameObject.GetComponent<Renderer>().material = fearMat;
     }
 
-    private IEnumerator SpawnGhost(float waitTime)
+    private void SpawnGhost()
     {
-        for (int i = 0; i < 5; i++)
+
+
+        if (canSpawnGhost)
         {
-            Debug.Log(canSpawnGhost+" new ghost");
-            if (canSpawnGhost)
+            if (portalType == RAGE)
             {
-                if (portalType == ANGRY)
-                {
-                    Instantiate(angryGhost, transform.position, Quaternion.identity);
-                }
-
-                else if (portalType == FEAR)
-                {
-                    Instantiate(fearGhost, transform.position, Quaternion.identity);
-                }
-                else if (portalType == SADNESS)
-                {
-                    Instantiate(sadnessGhost, transform.position, Quaternion.identity);
-                }
-                else
-                {
-
-                }
+                Instantiate(rageGhost, transform.position, Quaternion.identity);
             }
-            yield return new WaitForSeconds(waitTime);
 
+            else if (portalType == FEAR)
+            {
+                Instantiate(fearGhost, transform.position, Quaternion.identity);
+            }
+            else if (portalType == SADNESS)
+            {
+                Instantiate(sadnessGhost, transform.position, Quaternion.identity);
+            }
+            else
+            {
+
+            }
         }
+
     }
 
-    //public void SetCanSpawnGhost(bool canSpawnNow)
-    //{
-    //    canSpawnGhost = canSpawnNow;
-    //}
-
-    public void OnCollisionEnter(Collision coll)
+    private void OnCollisionEnter(Collision coll)
     {
         if (coll.gameObject.name.Contains("Box"))
-        {
+        {            
             canSpawnGhost = false;
         }
     }

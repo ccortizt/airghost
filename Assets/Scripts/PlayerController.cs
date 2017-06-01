@@ -51,8 +51,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            var airball = (GameObject)Instantiate(sphereAtackPrefab, transform.position + transform.forward, Quaternion.identity);
-            airball.GetComponent<Rigidbody>().velocity = transform.forward * 2;
+            Instantiate(sphereAtackPrefab, transform.position + transform.forward, transform.rotation);            
         }
 
         if (Input.GetKeyDown(KeyCode.X))
