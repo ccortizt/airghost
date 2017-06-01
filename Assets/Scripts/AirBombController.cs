@@ -45,7 +45,7 @@ public class AirBombController : MonoBehaviour
 
     private bool IsDiagonal(Vector3 box, Vector3 bomb)
     {
-        return Mathf.Abs((bomb - box).x) > 0.0001f && Mathf.Abs((bomb - box).z) > 0.0001f;
+        return Mathf.Abs((bomb - box).x) > 0.01 && Mathf.Abs((bomb - box).z) > 0.01f;
     }
 
 }
