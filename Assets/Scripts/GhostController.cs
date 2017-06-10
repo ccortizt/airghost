@@ -53,7 +53,7 @@ public class GhostController : MonoBehaviour
 
     private void RandomMovement()
     {
-        Debug.Log("random");
+        //Debug.Log("random");
         if (gameObject.GetComponent<NavMeshAgent>().enabled == false && canMove)
         {
             Vector3 rand = Random.insideUnitSphere / 2;
@@ -69,32 +69,30 @@ public class GhostController : MonoBehaviour
             Destroy(coll.gameObject);
             canMove = false;
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             StartCoroutine(EnableGhostMove(5));
-
-            //if (gameObject.name.Contains("Fear"))
-            //{
-            //    StartCoroutine(EnableGhostNav(12f));
-            //}
-
-            //else if (gameObject.name.Contains("Sadness"))
-            //{
-            //    StartCoroutine(EnableGhostNav(14f));
-            //}
-
-            //else if (gameObject.name.Contains("Rage"))
-            //{
-            //    StartCoroutine(EnableGhostNav(8f));
-            //}
-            //else
-            //{
-            //    StartCoroutine(EnableGhostNav(10f));
-            //}
+            Debug.Log("in");
 
         }
 
         if (coll.gameObject.name.Contains("Wall"))
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
+        }
+
+        if (coll.gameObject.name.Contains("Player"))
+        {
+            coll.gameObject.GetComponent<AirBarController>().DecreaseAir(5);
+
+            if(gameObject.name.Contains("Fear"))
+                coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(32);
+            if (gameObject.name.Contains("Sadness"))
+                coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(32);
+            if (gameObject.name.Contains("Rage"))
+                coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(4);
+
+            coll.gameObject.GetComponent<PlayerController>().Bump(gameObject.transform.position);
+
         }
     }
 
@@ -110,7 +108,7 @@ public class GhostController : MonoBehaviour
         if (coll.gameObject.name.Contains("Player"))
         {
             gameObject.GetComponent<NavMeshAgent>().enabled = false;
-            Debug.Log("not enabled");
+            //Debug.Log("not enabled");
         }
     }
 
@@ -118,7 +116,7 @@ public class GhostController : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
         gameObject.GetComponent<NavMeshAgent>().enabled = true;
-        Debug.Log("enabled");
+        //Debug.Log("enabled");
     }
 
     private IEnumerator EnableGhostMove(float waitTime)

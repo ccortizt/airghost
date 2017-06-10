@@ -76,7 +76,6 @@ public class GhostPortal : MonoBehaviour
     private void SpawnGhost()
     {
 
-
         if (canSpawnGhost)
         {
             if (portalType == RAGE)

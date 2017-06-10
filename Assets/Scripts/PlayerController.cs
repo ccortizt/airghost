@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
 
-    float propSpeed = 8;
+    float propSpeed = 16;
 
     private void Start()
     {
@@ -82,4 +82,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetPropSpeed(float value)
+    {
+        if (propSpeed == 16)
+        {
+            propSpeed = value;
+            StartCoroutine(SetDefaultPropSpeed());
+        }
+    }
+
+    public IEnumerator SetDefaultPropSpeed()
+    {
+        yield return new WaitForSeconds(3);
+        propSpeed = 16;
+    }
+
+    public void Bump(Vector3 ghostPos){
+        Vector3 aux = transform.position - ghostPos;
+        aux.y = 0f;
+        if ((transform.position + (aux * 2f)).x < 7.5f && (transform.position + (aux * 2f)).x > -7.5f && (transform.position + (aux * 2f)).z < 7.5f && (transform.position + (aux * 2f)).z > -7.5f)
+            transform.position = transform.position + (aux * 2f);
+    }
 }
