@@ -40,7 +40,7 @@ public class GhostPortal : MonoBehaviour
     {
         canSpawnGhost = true;
         SetType(1);
-        timePeak = Random.Range(10, 15);
+        timePeak = Random.Range(20, 45);
     }
 
     private void Update()

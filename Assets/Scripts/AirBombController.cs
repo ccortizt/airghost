@@ -31,7 +31,7 @@ public class AirBombController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(Mathf.Abs((item.gameObject.transform.position - transform.position).x) + " " + Mathf.Abs((item.gameObject.transform.position - transform.position).z));
+                    //Debug.Log(Mathf.Abs((item.gameObject.transform.position - transform.position).x) + " " + Mathf.Abs((item.gameObject.transform.position - transform.position).z));
                 }
 
 

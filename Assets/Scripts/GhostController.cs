@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class GhostController : MonoBehaviour
 {
 
-    private float moveSpeed = 3;
+    private float moveSpeed = .8f;
 
     private float timeCounter;
     private float timePeak;
@@ -18,7 +18,7 @@ public class GhostController : MonoBehaviour
         canMove = true;
         RestartCounter();
         timePeak = Random.Range(3, 5);
-        gameObject.GetComponent<NavMeshAgent>().enabled = false;
+        DisableGhostNav();
     }
 
     void Update()
@@ -53,7 +53,7 @@ public class GhostController : MonoBehaviour
 
     private void RandomMovement()
     {
-        //Debug.Log("random");
+        
         if (gameObject.GetComponent<NavMeshAgent>().enabled == false && canMove)
         {
             Vector3 rand = Random.insideUnitSphere / 2;
@@ -68,10 +68,9 @@ public class GhostController : MonoBehaviour
         {
             Destroy(coll.gameObject);
             canMove = false;
-            gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            DisableGhostNav();
             gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             StartCoroutine(EnableGhostMove(5));
-            Debug.Log("in");
 
         }
 
@@ -96,27 +95,17 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider coll)
-    {
-        if(coll.gameObject.name.Contains("Player"))
-            StartCoroutine(EnableGhostNav(0.5f));
-    }
-
-    void OnTriggerExit(Collider coll)
-    {
-
-        if (coll.gameObject.name.Contains("Player"))
-        {
-            gameObject.GetComponent<NavMeshAgent>().enabled = false;
-            //Debug.Log("not enabled");
-        }
-    }
-
-    private IEnumerator EnableGhostNav(float waitTime)
+  
+    public IEnumerator EnableGhostNav(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         gameObject.GetComponent<NavMeshAgent>().enabled = true;
-        //Debug.Log("enabled");
+  
+    }
+
+    public void DisableGhostNav()
+    {
+        gameObject.GetComponent<NavMeshAgent>().enabled = false;
     }
 
     private IEnumerator EnableGhostMove(float waitTime)

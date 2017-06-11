@@ -17,7 +17,7 @@ public class MobileBoxController : MonoBehaviour
 
     public void Move(Vector3 direction)
     {
-        Debug.Log(direction);
+        //Debug.Log(direction);
         GetComponent<Rigidbody>().velocity = -direction * 25;
         StartCoroutine(SetKinematic());
     }

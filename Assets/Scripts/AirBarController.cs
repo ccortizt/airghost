@@ -55,8 +55,6 @@ public class AirBarController : MonoBehaviour
     private void UpdateAirBar()
     {
         airBar.fillAmount = (float)airLevel / (float)initialAirLevel;
-        //Debug.Log("energy: " + airLevel);
-
     }
 
     public float GetAirLevel()

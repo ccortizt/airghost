@@ -26,26 +26,26 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            rb.rotation = Quaternion.Euler(0, 0, 0);
-            rb.MovePosition(transform.position + Vector3.forward / propSpeed);
+            rb.rotation = Quaternion.Euler(0, 90, 0);
+            rb.MovePosition(transform.position + Vector3.right / propSpeed);
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            rb.rotation = Quaternion.Euler(0, 180, 0);
-            rb.MovePosition(transform.position - Vector3.forward / propSpeed);
+            rb.rotation = Quaternion.Euler(0, -90, 0);
+            rb.MovePosition(transform.position - Vector3.right / propSpeed);
         }
         
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            rb.rotation = Quaternion.Euler(0, -90, 0);
-            rb.MovePosition(transform.position - Vector3.right / propSpeed);
+            rb.rotation = Quaternion.Euler(0, 0, 0);
+            rb.MovePosition(transform.position + Vector3.forward / propSpeed);            
         }
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            rb.rotation = Quaternion.Euler(0, 90, 0);
-            rb.MovePosition(transform.position + Vector3.right / propSpeed);
+            rb.rotation = Quaternion.Euler(0, 180, 0);
+            rb.MovePosition(transform.position - Vector3.forward / propSpeed);            
         }
 
 
@@ -62,21 +62,24 @@ public class PlayerController : MonoBehaviour
 
             if ((transform.position.x - Mathf.Round(transform.position.x)) < 0)
             {
-                pos.x = Mathf.Ceil(transform.position.x) - 0.5f;
+                pos.x = Mathf.Ceil(transform.position.x) - 0.5f;                
             }
+                
             else
             {
-                pos.x = Mathf.Floor(transform.position.x) + 0.5f;
+                pos.x = Mathf.Floor(transform.position.x) + 0.5f;                
             }
 
             if ((transform.position.z - Mathf.Round(transform.position.z)) < 0)
             {
-                pos.z = Mathf.Ceil(transform.position.z) - 0.5f;
+                pos.z = Mathf.Ceil(transform.position.z) - 0.5f;                
             }
             else
             {
-                pos.z = Mathf.Floor(transform.position.z) + 0.5f;
+                pos.z = Mathf.Floor(transform.position.z) + 0.5f;                
             }
+
+            //pos += transform.forward;
 
             Instantiate(sphereBombPrefab, pos, Quaternion.identity);
         }

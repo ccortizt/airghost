@@ -5,18 +5,15 @@ using UnityEngine;
 public class AirSphere : MonoBehaviour
 {
 
-    // Use this for initialization
+    private float sphereSpeed;
+    private float sphereDelay;
     void Start()
     {
-        StartCoroutine(MoveSphere(2f));
+        sphereSpeed = 1f;
+        sphereDelay = .5f;
+        StartCoroutine(MoveSphere(sphereDelay));
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    
     void OnCollisionEnter(Collision coll)
     {
         if (!coll.gameObject.name.Contains("Player") || !coll.gameObject.name.Contains("Air"))
@@ -26,6 +23,6 @@ public class AirSphere : MonoBehaviour
     private IEnumerator MoveSphere(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        GetComponent<Rigidbody>().velocity = transform.forward * 6f;
+        GetComponent<Rigidbody>().velocity = transform.forward * sphereSpeed;
     }
 }
