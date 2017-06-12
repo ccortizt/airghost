@@ -35,14 +35,14 @@ public class PlayerRangeManager : MonoBehaviour
 
     void OnTriggerEnter(Collider coll)
     {
-        if (coll.gameObject.name.Contains("Ghost"))
+        if (coll.gameObject.layer == 13)
             StartCoroutine(coll.gameObject.GetComponent<GhostController>().EnableGhostNav(0f));
     }
 
     void OnTriggerExit(Collider coll)
     {
 
-        if (coll.gameObject.name.Contains("Ghost"))
+        if (coll.gameObject.layer == 13)
         {
             coll.gameObject.GetComponent<GhostController>().DisableGhostNav();
         }

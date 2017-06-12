@@ -51,7 +51,7 @@ public class GhostPortal : MonoBehaviour
         {
             SpawnGhost();
             RestartCounter();
-            timePeak = Random.Range(10, 15);
+            //timePeak = Random.Range(10, 15);
         }
     }
 
@@ -78,18 +78,19 @@ public class GhostPortal : MonoBehaviour
 
         if (canSpawnGhost)
         {
+            
             if (portalType == RAGE)
             {
-                Instantiate(rageGhost, transform.position, Quaternion.identity);
+                Instantiate(rageGhost, transform.position + Vector3.up, Quaternion.identity);
             }
 
             else if (portalType == FEAR)
             {
-                Instantiate(fearGhost, transform.position, Quaternion.identity);
+                Instantiate(fearGhost, transform.position + Vector3.up, Quaternion.identity);
             }
             else if (portalType == SADNESS)
             {
-                Instantiate(sadnessGhost, transform.position, Quaternion.identity);
+                Instantiate(sadnessGhost, transform.position + Vector3.up, Quaternion.identity);
             }
             else
             {
@@ -102,7 +103,8 @@ public class GhostPortal : MonoBehaviour
     private void OnCollisionEnter(Collision coll)
     {
         if (coll.gameObject.name.Contains("Box"))
-        {            
+        {
+            Debug.Log("cannot spawn ghost");
             canSpawnGhost = false;
         }
     }

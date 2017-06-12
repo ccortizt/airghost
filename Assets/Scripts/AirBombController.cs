@@ -22,7 +22,7 @@ public class AirBombController : MonoBehaviour
 
             if (item.gameObject.layer == 11)
             {
-                //Debug.Log(item.gameObject.transform.position + " " + gameObject.transform.position);
+                Debug.Log(item.gameObject.transform.position + " " + gameObject.transform.position);
 
                 if (!IsDiagonal(item.gameObject.transform.position, transform.position))
                 {
@@ -31,7 +31,7 @@ public class AirBombController : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log(Mathf.Abs((item.gameObject.transform.position - transform.position).x) + " " + Mathf.Abs((item.gameObject.transform.position - transform.position).z));
+                    Debug.Log(Mathf.Abs((item.gameObject.transform.position - transform.position).x) + " " + Mathf.Abs((item.gameObject.transform.position - transform.position).z));
                 }
 
 
