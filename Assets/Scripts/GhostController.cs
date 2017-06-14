@@ -68,9 +68,11 @@ public class GhostController : MonoBehaviour
         {
             Destroy(coll.gameObject);
             canMove = false;
+            GetComponent<Health>().TakeDamage(1);
             DisableGhostNav();
             gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             StartCoroutine(EnableGhostMove(5));
+            
 
         }
 
@@ -79,9 +81,9 @@ public class GhostController : MonoBehaviour
             GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
 
-        if (coll.gameObject.name.Contains("Player"))
+        if (coll.gameObject.CompareTag("Player"))
         {
-            coll.gameObject.GetComponent<AirBarController>().DecreaseAir(5);
+            coll.gameObject.GetComponent<Health>().TakeDamage(5);
 
             if(gameObject.name.Contains("Fear"))
                 coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(32);

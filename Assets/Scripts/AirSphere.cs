@@ -7,11 +7,16 @@ public class AirSphere : MonoBehaviour
 
     private float sphereSpeed;
     private float sphereDelay;
+    private float destroyDelay;
+
     void Start()
     {
-        sphereSpeed = 1f;
+        sphereSpeed = 3.5f;
         sphereDelay = .5f;
+        destroyDelay = 3f;
+
         StartCoroutine(MoveSphere(sphereDelay));
+        Destroy(gameObject, destroyDelay);
     }
     
     void OnCollisionEnter(Collision coll)

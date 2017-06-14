@@ -79,7 +79,6 @@ public class PlayerController : MonoBehaviour
                 pos.z = Mathf.Floor(transform.position.z) + 0.5f;                
             }
 
-            //pos += transform.forward;
 
             Instantiate(sphereBombPrefab, pos, Quaternion.identity);
         }
