@@ -56,8 +56,6 @@ public class BoardCreator : MonoBehaviour
     void Start()
     {
         CreateStage(puzzle);
-        //if (autoCreate)
-        //    CreatePortals();
     }
 
 

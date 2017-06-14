@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class MobileBoxController : MonoBehaviour
 {
+    private Rigidbody rb;
+    
         
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         
     }
 
@@ -18,13 +21,13 @@ public class MobileBoxController : MonoBehaviour
     public void Move(Vector3 direction)
     {
         Debug.Log(direction);
-        GetComponent<Rigidbody>().velocity = -direction * 25;
+        rb.velocity = -direction * 25;
         StartCoroutine(SetKinematic());
     }
 
     private IEnumerator SetKinematic()
     {
         yield return new WaitForSeconds(3);
-        GetComponent<Rigidbody>().isKinematic = true;
+        rb.isKinematic = true;
     }
 }

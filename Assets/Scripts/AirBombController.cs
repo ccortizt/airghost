@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AirBombController : MonoBehaviour
 {
-
     private void Start()
     {
         StartCoroutine(Explode());
@@ -13,7 +13,7 @@ public class AirBombController : MonoBehaviour
 
     private IEnumerator Explode()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3);       
 
         Collider[] nearObjects = Physics.OverlapSphere(transform.position, 1f);
 

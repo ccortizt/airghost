@@ -13,12 +13,42 @@ public class GhostController : MonoBehaviour
     private float timePeak;
 
     private bool canMove;
+    private bool canPursuit;
+
+    private Rigidbody rb;
+    private GameObject player;
+
+    private NavMeshAgent nav;
+
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        nav = GetComponent<NavMeshAgent>();
+
         canMove = true;
+        canPursuit = true;
         RestartCounter();
         timePeak = Random.Range(3, 5);
         DisableGhostNav();
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<Health>().OnDie += HandlePlayerDeath;
+        gameObject.GetComponent<Health>().OnDie += HandleOwnDeath;
+    }
+
+    private void HandlePlayerDeath()
+    {
+        StopMovement();
+        
+        canMove = false;
+        canPursuit = false;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        
+    }
+
+    private void HandleOwnDeath()
+    {
+        Destroy(gameObject);
     }
 
     void Update()
@@ -34,9 +64,9 @@ public class GhostController : MonoBehaviour
 
         try
         {
-            if (gameObject.GetComponent<NavMeshAgent>().enabled)
+            if (nav.enabled && canPursuit)
             {
-                gameObject.GetComponent<NavMeshAgent>().destination = GameObject.FindGameObjectWithTag("Player").gameObject.transform.position;
+                nav.destination = player.gameObject.transform.position;
             }
            
         }
@@ -54,12 +84,17 @@ public class GhostController : MonoBehaviour
     private void RandomMovement()
     {
         
-        if (gameObject.GetComponent<NavMeshAgent>().enabled == false && canMove)
+        if (nav.enabled == false && canMove)
         {
             Vector3 rand = Random.insideUnitSphere / 2;
             rand.y = 0;
-            GetComponent<Rigidbody>().velocity = rand * moveSpeed;
+            rb.velocity = rand * moveSpeed;
         }
+    }
+
+    private void StopMovement()
+    {
+        rb.velocity = Vector3.zero;
     }
 
     void OnCollisionEnter(Collision coll)
@@ -70,27 +105,29 @@ public class GhostController : MonoBehaviour
             canMove = false;
             GetComponent<Health>().TakeDamage(1);
             DisableGhostNav();
-            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            StartCoroutine(EnableGhostMove(5));
-            
+            StopMovement();
+            StartCoroutine(EnableGhostMove(5));            
 
         }
 
         if (coll.gameObject.name.Contains("Wall"))
         {
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            StopMovement();
         }
 
-        if (coll.gameObject.CompareTag("Player"))
+        if (coll.gameObject.CompareTag("Player") && canPursuit)
         {
             coll.gameObject.GetComponent<Health>().TakeDamage(5);
 
-            if(gameObject.name.Contains("Fear"))
-                coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(32);
-            if (gameObject.name.Contains("Sadness"))
-                coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(32);
-            if (gameObject.name.Contains("Rage"))
-                coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(4);
+            nav.enabled = false;
+            StartCoroutine(EnableGhostNav(1));
+
+            //if(gameObject.name.Contains("Fear"))
+            //    coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(32);
+            //if (gameObject.name.Contains("Sadness"))
+            //    coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(32);
+            //if (gameObject.name.Contains("Rage"))
+            //    coll.gameObject.GetComponent<PlayerController>().SetPropSpeed(4);
 
             coll.gameObject.GetComponent<PlayerController>().Bump(gameObject.transform.position);
 
@@ -101,13 +138,13 @@ public class GhostController : MonoBehaviour
     public IEnumerator EnableGhostNav(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        gameObject.GetComponent<NavMeshAgent>().enabled = true;
+        nav.enabled = true;
   
     }
 
     public void DisableGhostNav()
     {
-        gameObject.GetComponent<NavMeshAgent>().enabled = false;
+        nav.enabled = false;
     }
 
     private IEnumerator EnableGhostMove(float waitTime)

@@ -6,18 +6,20 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    [SerializeField]
+    private float initialHealth;
 
     private float currentHealth;
 
     public float CurrentHealthPercentage
     {
-        get { return (float) currentHealth / initialHealth; }        
+        get { return (float)currentHealth / initialHealth; }
     }
 
     public event Action<float> OnDamageTaken = delegate { };
 
-    [SerializeField]
-    private float initialHealth;
+    public event Action OnDie = delegate { };
+
 
     private void Start()
     {
@@ -26,24 +28,28 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-       
-        if (currentHealth - damage > 0)
-        {
+        currentHealth -= damage;
 
-            currentHealth -= damage;
-            if(OnDamageTaken != null)
-                OnDamageTaken(CurrentHealthPercentage);
+        if (OnDamageTaken != null)
+        {
+            OnDamageTaken(CurrentHealthPercentage);
         }
-        else
+
+        if (currentHealth <= 0)
         {
             Die();
         }
+
 
     }
 
     private void Die()
     {
         Debug.Log(gameObject.name + " died");
-        Destroy(gameObject);
+
+        if (OnDie != null)
+        {
+            OnDie();
+        }
     }
 }

@@ -1,9 +1,9 @@
-AirGhost/[Ll]ibrary/
-AirGhost/[Tt]emp/
-AirGhost/[Oo]bj/
-AirGhost/[Bb]uild/
-AirGhost/[Bb]uilds/
-AirGhost/Assets/AssetStoreTools*
+/AirGhost/[Ll]ibrary/
+/AirGhost/[Tt]emp/
+/AirGhost/[Oo]bj/
+/AirGhost/[Bb]uild/
+/AirGhost/[Bb]uilds/
+/AirGhost/Assets/AssetStoreTools*
 
 # Visual Studio 2015 cache directory
 /.vs/

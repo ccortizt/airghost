@@ -39,8 +39,15 @@ public class GhostPortal : MonoBehaviour
     private void Start()
     {
         canSpawnGhost = true;
-        SetType(1);
+
         timePeak = Random.Range(20, 45);
+
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Health>().OnDie += StopSpawning;
+    }
+
+    private void StopSpawning()
+    {
+        canSpawnGhost = false;
     }
 
     private void Update()
@@ -49,9 +56,12 @@ public class GhostPortal : MonoBehaviour
 
         if (timeCounter > timePeak)
         {
-            SpawnGhost();
-            RestartCounter();
-            //timePeak = Random.Range(10, 15);
+            if (canSpawnGhost)
+            {
+                SpawnGhost();
+                RestartCounter();
+            }
+
         }
     }
 
@@ -75,36 +85,27 @@ public class GhostPortal : MonoBehaviour
 
     private void SpawnGhost()
     {
-
-        if (canSpawnGhost)
+        
+        if (portalType == RAGE)
         {
-            
-            if (portalType == RAGE)
-            {
-                Instantiate(rageGhost, transform.position + Vector3.up, Quaternion.identity);
-            }
-
-            else if (portalType == FEAR)
-            {
-                Instantiate(fearGhost, transform.position + Vector3.up, Quaternion.identity);
-            }
-            else if (portalType == SADNESS)
-            {
-                Instantiate(sadnessGhost, transform.position + Vector3.up, Quaternion.identity);
-            }
-            else
-            {
-
-            }
+            Instantiate(rageGhost, transform.position + Vector3.up, Quaternion.identity);
         }
 
+        else if (portalType == FEAR)
+        {
+            Instantiate(fearGhost, transform.position + Vector3.up, Quaternion.identity);
+        }
+        else if (portalType == SADNESS)
+        {
+            Instantiate(sadnessGhost, transform.position + Vector3.up, Quaternion.identity);
+        }
+       
     }
 
     private void OnCollisionEnter(Collision coll)
     {
         if (coll.gameObject.name.Contains("Box"))
         {
-            Debug.Log("cannot spawn ghost");
             canSpawnGhost = false;
         }
     }
