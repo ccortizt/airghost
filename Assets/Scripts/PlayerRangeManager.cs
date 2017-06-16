@@ -47,7 +47,10 @@ public class PlayerRangeManager : MonoBehaviour
     void OnTriggerEnter(Collider coll)
     {
         if (coll.gameObject.layer == 13 && isRangeActive)
+        {
             StartCoroutine(coll.gameObject.GetComponent<GhostController>().EnableGhostNav(0f));
+            coll.gameObject.GetComponent<GhostUIController>().EnableCanvas();
+        }
     }
 
     void OnTriggerExit(Collider coll)
@@ -56,6 +59,7 @@ public class PlayerRangeManager : MonoBehaviour
         if (coll.gameObject.layer == 13)
         {
             coll.gameObject.GetComponent<GhostController>().DisableGhostNav();
+            coll.gameObject.GetComponent<GhostUIController>().DisableCanvas();
         }
     }
 
